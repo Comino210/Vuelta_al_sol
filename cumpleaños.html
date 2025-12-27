@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡FELIZ CUMPLEAÑOS!</title>
+    <style>
+        body {
+            background-color: black;
+            font-family: 'Comic Sans MS', cursive;
+            color: red;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            font-size: 60px;
+            color: #ff0000;
+            text-shadow: 3px 3px 5px cyan;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.5; }
+        }
+        
+        .contenedor {
+            background-color: red;
+            color: black;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 600px;
+            border: 5px solid cyan;
+            border-radius: 15px;
+        }
+        
+        .mensaje {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        
+        .pastel {
+            font-size: 100px;
+            animation: girar 2s infinite;
+        }
+        
+        @keyframes girar {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        button {
+            background-color: cyan;
+            color: red;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 20px;
+            padding: 15px 30px;
+            border: 3px solid black;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background-color: #00e5e5;
+            transform: scale(1.1);
+        }
+        
+        .globos {
+            font-size: 50px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>¡FELIZ CUMPLEAÑOS!</h1>
+    
+    <marquee behavior="scroll" direction="left" style="color: cyan; font-size: 18px; margin: 10px;">
+        *** HAZ CLIC EN LA PANTALLA PARA VER FUEGOS ARTIFICIALES ***
+    </marquee>
+    
+    <div class="contenedor">
+        <div class="pastel">🎂</div>
+        <p class="mensaje">¡Que tengas un día INCREÍBLE!</p>
+        <p class="mensaje">Espero que cumplas todos tus deseos 🌟</p>
+        <p class="mensaje" style="font-size: 20px; margin-top: 15px;">¡FELIZ VUELTA AL SOL! ☀️🌍</p>
+    </div>
+    
+    <button onclick="mostrarSorpresa()">¡HAZ CLIC AQUÍ!</button>
+    
+    <div id="sorpresa" style="display:none; margin-top: 20px;">
+        <h2 style="color: cyan;">¡SORPRESA!</h2>
+        <p style="color: white; font-size: 22px;">¡Que este año esté lleno de alegría y éxitos!</p>
+    </div>
+    
+    <script>
+        function mostrarSorpresa() {
+            var sorpresa = document.getElementById('sorpresa');
+            if(sorpresa.style.display === 'none') {
+                sorpresa.style.display = 'block';
+            } else {
+                sorpresa.style.display = 'none';
+            }
+        }
+        
+        // Fuegos artificiales al tocar la pantalla
+        var colorActual = '#ff0000'; // Color inicial
+        var colores = ['#ff0000', '#00ff00', '#0000ff', '#ff00ff', '#00ffff', '#ffa500', '#ff1493', '#00ff7f', '#9370db', '#32cd32'];
+        var indiceColor = 0;
+        
+        document.addEventListener('click', function(e) {
+            var x = e.clientX;
+            var y = e.clientY;
+            
+            // Cambiar color en cada click
+            indiceColor = (indiceColor + 1) % colores.length;
+            colorActual = colores[indiceColor];
+            
+            // Crear varios fuegos artificiales
+            for(var i = 0; i < 15; i++) {
+                crearFuegoArtificial(x, y);
+            }
+        });
+        
+        function crearFuegoArtificial(x, y) {
+            var fuego = document.createElement('div');
+            fuego.style.position = 'fixed';
+            fuego.style.left = x + 'px';
+            fuego.style.top = y + 'px';
+            fuego.style.width = '15px';
+            fuego.style.height = '15px';
+            fuego.style.borderRadius = '50%';
+            fuego.style.zIndex = '1000';
+            fuego.style.pointerEvents = 'none';
+            
+            // Usar el color actual
+            fuego.style.backgroundColor = colorActual;
+            fuego.style.boxShadow = '0 0 10px ' + colorActual;
+            
+            document.body.appendChild(fuego);
+            
+            // Dirección aleatoria
+            var angulo = Math.random() * Math.PI * 2;
+            var velocidad = Math.random() * 5 + 3;
+            var dx = Math.cos(angulo) * velocidad;
+            var dy = Math.sin(angulo) * velocidad;
+            
+            var posX = x;
+            var posY = y;
+            var vida = 0;
+            
+            var animacion = setInterval(function() {
+                vida++;
+                posX += dx;
+                posY += dy;
+                dy += 0.2; // Gravedad
+                
+                fuego.style.left = posX + 'px';
+                fuego.style.top = posY + 'px';
+                fuego.style.opacity = 1 - (vida / 200);
+                
+                if(vida > 50) {
+                    clearInterval(animacion);
+                    fuego.remove();
+                }
+            }, 20);
+        }
+    </script>
+    
+</body>
+</html>
